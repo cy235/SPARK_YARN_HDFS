@@ -4,7 +4,7 @@
  First, we need to create multiple (here we create 4) virtual machines installed with CentOS 8 using VMware, and setup the network adapter as NAT.
  
  ## Network interface card setting
- then we configure the network interface card for each machine in the following
+We configure the network interface card for each machine in the following
  
 ```
  vi /etc/sysconfig/network-scripts/ifcfg-ens33
@@ -30,7 +30,13 @@ GATEWAY=192.168.226.2
 DNS1=192.168.226.2
 NETMASK=255.255.255.0
 ```
-change `BOOTPROTO=dhcp` to `BOOTPROTO=static`, add your own `IPADDR`, `GATEWAY`, `DNS1`, `NETMASK`, and set different `IPADDR` for different machines. Restart the network.
+change `BOOTPROTO=dhcp` to `BOOTPROTO=static`, add your own `IPADDR`, `GATEWAY`, `DNS1`, `NETMASK`, and set different `IPADDR` for different machines. In this repo, the ip of four machines are set as `192.168.226.130`, `192.168.226.131`, `192.168.226.132`, `192.168.226.133` respectively.  Restart the network.
 ```
 service network restart
 ```
+
+## Change the host name
+We change the host name for each machine 
+``
+vi /etc/hostname
+``
