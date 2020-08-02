@@ -4,9 +4,9 @@
  First, we create multiple (here we create 4) virtual machines installed with CentOS 8 using VMware, and setup the network adapter as NAT, 
  then we configure the network interface card for each machine
  
-``
+```
  vi /etc/sysconfig/network-scripts/ifcfg-ens33
-``
+```
 ```
 TYPE=Ethernet
 PROXY_METHOD=none
