@@ -233,3 +233,72 @@ You can verify whether your HDFS successfully start by executing `jps` (Java Vir
 namenode and datanode are running in the master node and slave nodes, respectively. You can also verify it by visiting http://master:9870 or  http://192.168.226.130:9870
 ![image](https://github.com/cy235/SPARK_YARN_HDFS/blob/master/data_nodes.png)
 
+## Configuration of YARN
+Now, we configure the hadoop resourcemanager YARN. In the master node, 
+```
+mkdir -p /root/bigdata/yarn/local-dir
+```
+```
+vi /root/bigdata/hadoop-3.2.1/etc/hadoop/yarn-site.xml
+```
+
+```
+<configuration>
+        <property>
+                <name>yarn.resourcemanager.hostname</name>
+                <value>master</value>
+                <description>the machine where the Resourcemanager is installed</description>
+        </property>
+        <property>
+                <name>yarn.resourcemanager.address</name>
+                <value>master:8032</value>
+                <description>resourcemanager listen to this port</description>
+        </property>
+        <property>
+                <name>yarn.nodemanager.local-dirs</name>
+                <value>/root/bigdata/yarn/local-dir</value>
+                <description>the data storage place for nodeManager</description>
+        </property>
+
+        <property>
+                <name>yarn.nodemanager.resource.memory-mb</name>
+                <value>1630</value>
+                <description>the memory size the nodemanager manage</description>
+        </property>
+
+        <property>
+                <name>yarn.nodemanager.resource.cpu-vcores</name>
+                <value>2</value>
+                <description>the number of CPUs the nodemanager manage</description>
+        </property>
+
+</configuration>
+```
+Then, copy this configurations into slaves
+
+```
+scp /root/bigdata/hadoop-3.2.1/etc/hadoop/yarn-site.xml root@slave1:~/bigdata/hadoop-3.2.1/etc/hadoop/
+scp /root/bigdata/hadoop-3.2.1/etc/hadoop/yarn-site.xml root@slave2:~/bigdata/hadoop-3.2.1/etc/hadoop/
+scp /root/bigdata/hadoop-3.2.1/etc/hadoop/yarn-site.xml root@slave3:~/bigdata/hadoop-3.2.1/etc/hadoop/
+
+scp -r /root/bigdata/yarn/local-dir root@slave1:/root/bigdata/yarn
+scp -r /root/bigdata/yarn/local-dir root@slave2:/root/bigdata/yarn
+scp -r /root/bigdata/yarn/local-dir root@slave3:/root/bigdata/yarn
+```
+In `hadoop-env.sh`,
+```
+vi /root/bigdata/hadoop-3.2.1/etc/hadoop/hadoop-env.sh
+```
+add the following
+```
+export YARN_RESOURCEMANAGER_USER=root
+export YARN_NODEMANAGER_USER=root
+```
+
+Now, start YARN
+```
+start-yarn.sh
+```
+you can visit it via http://master:8088 or http://192.168.226.130:8088/ 
+
+![image](https://github.com/cy235/SPARK_YARN_HDFS/blob/master/hadoop_nodes.png)
