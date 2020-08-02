@@ -9,6 +9,7 @@ We configure the network interface card for each machine in the following
 ```
  vi /etc/sysconfig/network-scripts/ifcfg-ens33
 ```
+
 ```
 TYPE=Ethernet
 PROXY_METHOD=none
@@ -35,8 +36,63 @@ change `BOOTPROTO=dhcp` to `BOOTPROTO=static`, add your own `IPADDR`, `GATEWAY`,
 service network restart
 ```
 
-## Change the host name
+## Change the host name and map ip 
 We change the host name for each machine 
-``
+```
 vi /etc/hostname
-``
+```
+In this repo, we name the machines as `master`, `slave1`, `slave2`, `slave3`, respectively. Then map the ip of each machine to its associated name
+
+```
+vi /etc/hosts
+```
+```
+127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4
+::1         localhost localhost.localdomain localhost6 localhost6.localdomain6
+
+192.168.226.130 master
+192.168.226.131 slave1
+192.168.226.132 slave2
+192.168.226.133 slave3
+```
+Since the file `vi /etc/hosts` should be identical in each machine, we can create it on master machine and copy it to different slave machines
+
+```
+scp /etc/hosts  root@slave1:/etc
+scp /etc/hosts  root@slave2:/etc
+scp /etc/hosts  root@slave3:/etc
+```
+
+You can find each time we copy the file from the master to the slaves, we need to enter the password, while the Hadoop cluster requires that master can login each slave with out SSH key. In the next, we will configure that the master can login slaves without SSH key.
+
+## Login slaves without SSH key
+Now, in the master machine, we create a ssh keypair `id_dsa` and `id_dsa.pub` 
+```
+ssh-keygen  -t dsa  -P  '' -f  ~/.ssh/id_dsa
+```
+Then, we rename the public key `id_dsa.pub` as `authorized_keys`
+```
+cat  ~/.ssh/id_dsa.pub >>  ~/.ssh/authorized_keys
+```
+Finally, we copy this public key into each slaves
+```
+scp ~/.ssh/authorized_keys  root@slave1:~/.ssh/
+scp ~/.ssh/authorized_keys  root@slave2:~/.ssh/
+scp ~/.ssh/authorized_keys  root@slave3:~/.ssh/
+```
+Also, don't forget to change mode of this public key by executing the following script on each machine.
+
+```
+chmod 700 ~/.ssh
+chmod 600 ~/.ssh/authorized_keys
+```
+Further, the firewall of all machines need to be shutdown or disabled
+
+```
+systemctl status firewalld
+systemctl stop firewalld
+systemctl disable firewalld
+
+```
+
+##
