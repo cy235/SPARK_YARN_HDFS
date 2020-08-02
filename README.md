@@ -265,8 +265,8 @@ Upload the big_file.txt
 hadoop fs -put big_file.txt /user     
 ```
 
-You can check this uploaded file on dashboard  [image](https://github.com/cy235/SPARK_YARN_HDFS/blob/master/big_data_file.png)
-
+You can check this uploaded file on dashboard 
+[image](https://github.com/cy235/SPARK_YARN_HDFS/blob/master/big_data_file.png)
 
 
 
@@ -392,7 +392,7 @@ source .bash_profile
 export YARN_CONF_DIR=/root/bigdata/hadoop-3.2.1/etc/hadoop
 spark-shell  --master yarn  --num-executors 2 --executor-memory 1048M --executor-cores 1
 ```
-Now, you can enter the Spark
+Now, you can enter the Spark. Now let's count the number of lines of the previously uploaded big data file `big_file.txt`
 ```
 scala> val data=sc.textFile("hdfs://master:9000/user/big_file.txt")
 data: org.apache.spark.rdd.RDD[String] = hdfs://master:9000/user/big_file.txt MapPartitionsRDD[1] at textFile at <console>:24
