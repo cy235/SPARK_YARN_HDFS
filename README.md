@@ -302,3 +302,51 @@ start-yarn.sh
 you can visit it via http://master:8088 or http://192.168.226.130:8088/ 
 
 ![image](https://github.com/cy235/SPARK_YARN_HDFS/blob/master/hadoop_nodes.png)
+
+
+## Configuration of Apache Spark
+Download and unzip file spark-3.0.0-preview2-bin-hadoop3.2.tgz under the fold `/root/bigdata/`.
+
+Add the slave names
+```
+cd /root/bigdata/spark-3.0.0-preview2-bin-hadoop3.2/conf
+cp slaves.template slaves
+vi slaves
+```
+```
+slave1
+slave2
+slave3
+```
+Set Spark environmnt 
+```
+cp spark-env.sh.template spark-env.sh
+vi spark-evc.sh
+```
+add the following
+```
+export JAVA_HOME=/usr/local/lib/jdk1.8.0_161
+```
+
+Copy Spark configuration to slaves.
+```
+scp -r /root/bigdata/spark-3.0.0-preview2-bin-hadoop3.2 root@slave1:/root/bigdata
+scp -r /root/bigdata/spark-3.0.0-preview2-bin-hadoop3.2 root@slave2:/root/bigdata
+scp -r /root/bigdata/spark-3.0.0-preview2-bin-hadoop3.2 root@slave3:/root/bigdata
+```
+
+Then, modify the `.bash_profile`
+```
+vi .bash_profile
+```
+```
+export JAVA_HOME=/usr/local/lib/jdk1.8.0_161
+export HADOOP_HOME=/root/bigdata/hadoop-3.2.1
+export SPARK_HOME=/root/bigdata/spark-3.0.0-preview2-bin-hadoop3.2
+PATH=$PATH:$HOME/bin:$JAVA_HOME/bin:$HADOOP_HOME/bin:$HADOOP_HOME/sbin:$SPARK_HOME/bin
+
+export PATH
+```
+```
+source .bash_profile
+```
