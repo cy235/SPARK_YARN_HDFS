@@ -265,8 +265,6 @@ Upload the big_file.txt
 hadoop fs -put big_file.txt /user     
 ```
 
-You can check this uploaded file on dashboard 
-[image](https://github.com/cy235/SPARK_YARN_HDFS/blob/master/big_data_fil.png)
 
 
 
