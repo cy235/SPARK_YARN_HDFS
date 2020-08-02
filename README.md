@@ -233,6 +233,43 @@ You can verify whether your HDFS successfully start by executing `jps` (Java Vir
 namenode and datanode are running in the master node and slave nodes, respectively. You can also verify it by visiting http://master:9870 or  http://192.168.226.130:9870
 ![image](https://github.com/cy235/SPARK_YARN_HDFS/blob/master/data_nodes.png)
 
+## Big data practice- create a folder in the HDFS
+```
+hadoop fs -mkdir hdfs://master:9000/user
+```
+
+## generate a big data file
+Create a test file to create big data
+```
+vi test.sh
+```
+```
+#!/bin/bash
+
+for ((i=0;i<=$1;i++))
+do
+        echo "I love Bigdata, I love Hadoop">>big_file.txt
+done
+```
+Create a big data file of 10000000 lines
+```
+bash test.sh 10000000
+```
+Check the file size
+```
+ll -h
+```
+
+Upload the big_file.txt
+```
+hadoop fs -put big_file.txt /user     
+```
+
+You can check this uploaded file on dashboard [image](https://github.com/cy235/SPARK_YARN_HDFS/blob/master/big_data_file.png)
+
+
+
+
 ## Configuration of YARN
 Now, we configure the hadoop resourcemanager YARN. In the master node, 
 ```
@@ -350,3 +387,12 @@ export PATH
 ```
 source .bash_profile
 ```
+## Spark applys resource from YARN
+```
+export YARN_CONF_DIR=/root/bigdata/hadoop-3.2.1/etc/hadoop
+spark-shell  --master yarn  --num-executors 2 --executor-memory 1048M --executor-cores 1
+```
+Now, you can enter the Spark
+scala>  val data=sc.textFile("hdfs://master:9000/user/big_file.txt")
+scala> data.count()
+
