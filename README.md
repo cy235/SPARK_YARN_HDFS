@@ -231,5 +231,5 @@ You can verify whether your HDFS successfully start by executing `jps` (Java Vir
 1635 DataNode
 ```
 namenode and datanode are running in the master node and slave nodes, respectively. You can also verify it by visiting http://master:9870 or  http://192.168.226.130:9870
-![image](https://github.com/cy235/SPARK_YARN_HDFS/blob/master/hadoop.png)
+![image](https://github.com/cy235/SPARK_YARN_HDFS/blob/master/hadoop_nodes.png)
 
