@@ -7,7 +7,7 @@
 ``
  vi /etc/sysconfig/network-scripts/ifcfg-ens33
 ``
-``
+```
 TYPE=Ethernet
 PROXY_METHOD=none
 BROWSER_ONLY=no
@@ -27,4 +27,4 @@ IPADDR=192.168.226.130
 GATEWAY=192.168.226.2
 DNS1=192.168.226.2
 NETMASK=255.255.255.0
-``
+```
