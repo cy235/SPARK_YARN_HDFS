@@ -394,7 +394,12 @@ spark-shell  --master yarn  --num-executors 2 --executor-memory 1048M --executor
 ```
 Now, you can enter the Spark
 ```
-scala>  val data=sc.textFile("hdfs://master:9000/user/big_file.txt")
+scala> val data=sc.textFile("hdfs://master:9000/user/big_file.txt")
+data: org.apache.spark.rdd.RDD[String] = hdfs://master:9000/user/big_file.txt MapPartitionsRDD[1] at textFile at <console>:24
+
 scala> data.count()
-res0: Long = 16000104 
+res0: Long = 26000105                                                           
+
+scala> 
+
 ```
