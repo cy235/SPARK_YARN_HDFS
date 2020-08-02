@@ -393,6 +393,8 @@ export YARN_CONF_DIR=/root/bigdata/hadoop-3.2.1/etc/hadoop
 spark-shell  --master yarn  --num-executors 2 --executor-memory 1048M --executor-cores 1
 ```
 Now, you can enter the Spark
+```
 scala>  val data=sc.textFile("hdfs://master:9000/user/big_file.txt")
 scala> data.count()
-
+res0: Long = 16000104 
+```
