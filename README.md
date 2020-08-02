@@ -31,7 +31,7 @@ GATEWAY=192.168.226.2
 DNS1=192.168.226.2
 NETMASK=255.255.255.0
 ```
-change `BOOTPROTO=dhcp` to `BOOTPROTO=static`, add your own `IPADDR`, `GATEWAY`, `DNS1`, `NETMASK`, and set different `IPADDR` for different nodes. In this repo, the ip of four nodes are set as `192.168.226.130`, `192.168.226.131`, `192.168.226.132`, `192.168.226.133` respectively.  Restart the network.
+change `BOOTPROTO=dhcp` to `BOOTPROTO=static`, add your own `IPADDR`, `GATEWAY`, `DNS1`, `NETMASK`, and set different `IPADDR` for different nodes. In this repo, the ip of four nodes are set as `192.168.226.130`, `192.168.226.131`, `192.168.226.132`, `192.168.226.133` respectively. Then we restart the network.
 ```
 service network restart
 ```
