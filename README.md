@@ -95,4 +95,23 @@ systemctl disable firewalld
 
 ```
 
-##
+## Install java virtual machine
+Download `jdk-8u161-linux-x64.tar.gz` from ORACLE. Upload the `jdk-8u161-linux-x64.tar.gz` to slave1,slave2 and slave3 (here we use the tool `FileZilla` to upload the file). unzip the file
+```
+tar -xvf jdk-8u161-linux-x64.tar.gz
+```
+and configure the environment
+```
+cd ~
+```
+```
+vi .bash_profile
+export JAVA_HOME=/usr/local/lib/jdk1.8.0_161
+PATH=$PATH:$HOME/bin:$JAVA_HOME/bin
+
+export PATH
+```
+```
+source ~/.bash_profile
+```
+
