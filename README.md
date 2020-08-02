@@ -96,14 +96,11 @@ systemctl disable firewalld
 ```
 
 ## Install java virtual machine
-Download `jdk-8u161-linux-x64.tar.gz` from ORACLE. Upload the `jdk-8u161-linux-x64.tar.gz` to slave1,slave2 and slave3 (here we use the tool `FileZilla` to upload the file). unzip the file
+In the home directory, download `jdk-8u161-linux-x64.tar.gz` from ORACLE. Upload the `jdk-8u161-linux-x64.tar.gz` to the home directory of slave1,slave2 and slave3 (here we use the tool `FileZilla` to upload the file). unzip the file
 ```
 tar -xvf jdk-8u161-linux-x64.tar.gz
 ```
 and configure the environment
-```
-cd ~
-```
 ```
 vi .bash_profile
 export JAVA_HOME=/usr/local/lib/jdk1.8.0_161
@@ -115,3 +112,76 @@ export PATH
 source ~/.bash_profile
 ```
 
+## HDFS configuration
+In the home directory, create a `bigdata` folder, then download and unzip `hadoop-3.2.1.tar.gz`
+```
+mkdir bigdata
+cd bigdata
+tar -zxvf hadoop-3.2.1.tar.gz
+```
+then configure `core-site.xml`
+
+```
+vi /root/bigdata/hadoop-3.2.1/etc/hadoop/core-site.xml
+```
+```
+<configuration>
+        <property>
+                <name>fs.defaultFS</name>
+                <value>hdfs://master:9000</value>
+                <description>HDFS basic path</description>
+        </property>
+</configuration>
+```
+where `hdfs://master:9000/` is the HDFS basic path, all the data will be stored under this path. 
+
+Also, we create required files for namenode and datanode.
+
+```
+mkdir -p /root/bigdata/dfs/name
+mkdir -p /root/bigdata/dfs/data
+```
+and configure `hdfs-site.xml`
+
+```
+vi /root/bigdata/hadoop-3.2.1/etc/hadoop/hdfs-site.xml
+```
+```
+<configuration>
+        <property>
+                <name>dfs.replication</name>
+                <value>2</value>
+                <description>the number of backup blocks, which is not larger than number of DataNodes</description>
+        </property>
+        <property>
+                <name>dfs.namenode.name.dir</name>
+                <value>/root/bigdata/dfs/name</value>
+                <description>the data storage place for NameNodes</description>
+        </property>
+        <property>
+                <name>dfs.datanode.data.dir</name>
+                <value>/root/bigdata/dfs/data</value>
+                <description>the data storage place for DataNodes</description>
+        </property>
+</configuration>
+```
+Then, we configure the hadoop environment
+
+```
+vi /root/bigdata/hadoop-3.2.1/etc/hadoop/hadoop-env.sh
+```
+```
+export JAVA_HOME=/usr/local/lib/jdk1.8.0_161
+export HDFS_DATANODE_USER=root
+export HDFS_NAMENODE_USER=root
+export HDFS_SECONDARYNAMENODE_USER=root
+```
+```
+vi  /root/bigdata/hadoop-3.2.1/etc/hadoop/workers
+```
+and add the name of all workers/slaves
+```
+slave1
+slave2
+slave3
+```
