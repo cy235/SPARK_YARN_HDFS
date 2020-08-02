@@ -1,8 +1,10 @@
 # Create a Hadoop Distributed File System ( HDFS) running Spark on YARN  
  In this repo, we introduce how to create a Hadoop cluster with different machines, and run the Apache Spark on YARN to process big data.
  
- First, we create multiple (here we create 4) virtual machines installed with CentOS 8 using VMware, and setup the network adapter as NAT, 
- then we configure the network interface card for each machine
+ First, we need to create multiple (here we create 4) virtual machines installed with CentOS 8 using VMware, and setup the network adapter as NAT.
+ 
+ ## Network interface card setting
+ then we configure the network interface card for each machine in the following
  
 ```
  vi /etc/sysconfig/network-scripts/ifcfg-ens33
@@ -27,4 +29,8 @@ IPADDR=192.168.226.130
 GATEWAY=192.168.226.2
 DNS1=192.168.226.2
 NETMASK=255.255.255.0
+```
+change `BOOTPROTO=dhcp` to `BOOTPROTO=static`, add your own `IPADDR`, `GATEWAY`, `DNS1`, `NETMASK`, and set different `IPADDR` for different machines. Restart the network.
+```
+service network restart
 ```
